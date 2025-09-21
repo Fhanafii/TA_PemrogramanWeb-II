@@ -1,0 +1,5 @@
+UPDATE mysql.user
+SET Host = '%'
+WHERE User = 'mrg' AND Host = 'localhost';
+
+FLUSH PRIVILEGES;

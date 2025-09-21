@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Scan QR Presensi</title>
+    <!-- <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script> -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  </head>
+  <body>
+    <h2>Scan QR Presensi</h2>
+    <div id="reader" style="width: 300px"></div>
+    <div id="result"></div>
+    <script>
+      function sendPayload(payload, type = "in") {
+        fetch(
+          "https://192.168.1.133/SEMESTERVII/pemrograman2/coba1/src/attendance.php",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ payload: payload, type: type }),
+          }
+        )
+          .then((r) => r.json())
+          .then((j) => {
+            document.getElementById("result").innerText = JSON.stringify(j);
+          })
+          .catch(
+            (e) => (document.getElementById("result").innerText = "Error: " + e)
+          );
+      }
+
+      const html5QrcodeScanner = new Html5Qrcode("reader");
+      const config = { fps: 10, qrbox: 250 };
+
+      html5QrcodeScanner
+        .start(
+          { facingMode: "environment" },
+          config,
+          (qrCodeMessage) => {
+            // qrCodeMessage => string (json payload)
+            document.getElementById("result").innerText =
+              "QR read: " + qrCodeMessage;
+            // kirim ke server
+            sendPayload(qrCodeMessage, "in");
+            // optionally stop scanning for a bit to avoid duplicate reads
+            html5QrcodeScanner.stop().catch((err) => console.log(err));
+          },
+          (errorMessage) => {
+            // handle decode errors
+          }
+        )
+        .catch((err) => {
+          document.getElementById("result").innerText =
+            "Camera init error: " + err;
+        });
+    </script>
+  </body>
+</html>
