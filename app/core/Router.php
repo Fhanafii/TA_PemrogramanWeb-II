@@ -11,12 +11,17 @@ require_once __DIR__ . '/../helpers/loadEnv.php';
 require_once __DIR__ . '/../helpers/logout.php';
 
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/ScheduleModel.php';
+require_once __DIR__ . '/../models/ScheduleDayModel.php';
 class Router
 {
   public function handleRequest()
   {
     // cek cookie remember me
     // tryAutoLoginFromCookie();
+
+    // Load environment variables
+    loadEnv(__DIR__ . '/../../.env');
 
     $controllerName = $_GET['controller'] ?? 'home';
     $actionName     = $_GET['action'] ?? 'index';

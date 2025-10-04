@@ -36,15 +36,26 @@ class AuthController extends Controller
 
     // if ($user && password_verify($password, $user['password'])) {
     if ($user && $user['email'] === $email && $user['password'] === $password) {
-      // Buat payload
-      $payload = [
-        "user_id" => $user['id'],
-        "email"   => $user['email']
-      ];
+
+      // set cookie params (opsional, lakukan sebelum session_start() pada kode produksi)
+      // $cookieParams = session_get_cookie_params();
+      // session_set_cookie_params([
+      //   'lifetime' => $cookieParams['lifetime'],
+      //   'path'     => $cookieParams['path'],
+      //   'domain'   => $cookieParams['domain'],
+      //   'secure'   => true,       // pastikan memakai HTTPS
+      //   'httponly' => true,
+      //   'samesite' => 'Lax'
+      // ]);
 
       // setelah verifikasi password:
       session_regenerate_id(true);
       $_SESSION['user_id'] = $user['id'];
+      $_SESSION['user_role'] = $user['positions'];
+      $_SESSION['nik'] = $user['nik'];
+      $_SESSION['name'] = $user['name'];
+      $_SESSION['email'] = $user['email'];
+      $base = getenv('BASE_URL') ?: 'localhost';
 
       // jika user centang "ingat saya"
       // if (!empty($_POST['remember_me'])) {
@@ -53,7 +64,8 @@ class AuthController extends Controller
         createRememberToken($pdo, $user['id'], $_SERVER['HTTP_USER_AGENT'] ?? '');
       }
 
-      header('Location: http://localhost/SEMESTERVII/pemrograman2/coba2basedSession/public/index.php?controller=home');
+      // header('Location: http://localhost/SEMESTERVII/pemrograman2/coba2basedSession/public/index.php?controller=home');
+      header("Location: $base");
     } else {
       http_response_code(401);
       echo json_encode(["error" => "Email atau password salah"]);

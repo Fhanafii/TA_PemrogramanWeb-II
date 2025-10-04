@@ -14,7 +14,7 @@ class Database
   public function __construct()
   {
     // Load environment variables
-    loadEnv(__DIR__ . '/../../.env');
+    // loadEnv(__DIR__ . '/../../.env');
 
     // Override default values with environment variables if they exist
     $this->host = getenv('DB_HOST') ?: $this->host;

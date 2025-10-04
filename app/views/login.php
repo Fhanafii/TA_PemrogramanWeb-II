@@ -2,11 +2,12 @@
 <html>
 
 <head>
-  <title>Login Page</title>
+  <title><?= $title ?></title>
 </head>
 
 <body>
-  <h2>Login</h2>
+  <h1><?= $title ?></h1>
+
   <form method="POST" action="index.php?controller=Auth&action=login">
     <label>Email:</label><br>
     <input type="email" name="email" required><br>
