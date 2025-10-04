@@ -7,12 +7,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `name` varchar(150) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('admin','pegawai') DEFAULT 'pegawai',
+  -- `role` enum('admin','pegawai') DEFAULT 'pegawai',
   `qr_token` varchar(128) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nik` (`nik`)
 );
+
+-- Ubah tabel users: hapus kolom role
+-- ALTER TABLE users DROP COLUMN role;
 
 CREATE TABLE IF NOT EXISTS `attendance` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -41,3 +44,62 @@ CREATE TABLE IF NOT EXISTS `remember_tokens` (
   UNIQUE KEY `selector` (`selector`),
   KEY `user_id` (`user_id`)
 );
+
+-- Tabel position
+CREATE TABLE IF NOT EXISTS `positions` (
+    `id_positions` INT AUTO_INCREMENT PRIMARY KEY,
+    `positions` VARCHAR(100) NOT NULL
+);
+
+-- Tabel departement
+CREATE TABLE IF NOT EXISTS `departements` (
+    `id_departements` INT AUTO_INCREMENT PRIMARY KEY,
+    `departements` VARCHAR(100) NOT NULL
+);
+
+-- Tabel employee_status
+CREATE TABLE IF NOT EXISTS `employee_status` (
+    `id_status` INT AUTO_INCREMENT PRIMARY KEY,
+    `employee_status` VARCHAR(100) NOT NULL
+);
+
+-- Tabel user_employee
+CREATE TABLE IF NOT EXISTS `user_employee` (
+    `id` INT NOT NULL,
+    `id_positions` INT NOT NULL,
+    `id_departements` INT NOT NULL,
+    `id_status` INT NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT `fk_user` FOREIGN KEY (`id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_positions` FOREIGN KEY (`id_positions`) REFERENCES `positions`(`id_positions`),
+    CONSTRAINT `fk_departements` FOREIGN KEY (`id_departements`) REFERENCES `departements`(`id_departements`),
+    CONSTRAINT `fk_status` FOREIGN KEY (`id_status`) REFERENCES `employee_status`(`id_status`)
+);
+
+CREATE TABLE IF NOT EXISTS `schedules` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  `year` int NOT NULL,
+  `month` tinyint NOT NULL,
+  `created_by` int DEFAULT NULL,
+  `note` text,
+  `default_checkin` time NOT NULL DEFAULT '08:00:00',
+  `default_checkout` time NOT NULL DEFAULT '16:00:00',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_year_month` (`year`,`month`)
+);
+
+CREATE TABLE IF NOT EXISTS `schedule_days` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `schedule_id` int NOT NULL,
+  `the_date` date NOT NULL,
+  `status` enum('work','off') NOT NULL DEFAULT 'work',
+  `note` varchar(255) DEFAULT NULL,
+  `checkin_time` time DEFAULT NULL,
+  `checkout_time` time DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_schedule_date` (`schedule_id`,`the_date`),
+  KEY `idx_schedule` (`schedule_id`),
+  CONSTRAINT `schedule_days_fk` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`) ON DELETE CASCADE
+)

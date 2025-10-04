@@ -59,7 +59,20 @@ class User extends Model
   public function findByEmail($email)
   {
     // $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
-    $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+    // $stmt = $this->conn->prepare("SELECT id, name, email, FROM users WHERE email = :email LIMIT 1");
+    $stmt = $this->conn->prepare("SELECT 
+    u.id,
+    u.name,
+    u.email,
+    u.nik,
+    u.password,
+    p.positions
+    FROM users u
+    JOIN user_employee ue ON ue.id = u.id
+    JOIN positions p ON p.id_positions = ue.id_positions
+    WHERE u.email  = :email
+    LIMIT 1;
+      ");
     $stmt->bindParam(":email", $email);
     $stmt->execute(['email' => $email]);
     // return $stmt->execute();

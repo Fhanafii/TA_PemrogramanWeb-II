@@ -25,6 +25,6 @@ function logout(PDO $pdo)
     setcookie('remember_me', '', time() - 3600, '/');
   }
 
-  header("Location: http://localhost/SEMESTERVII/pemrograman2/coba2basedSession/public/index.php?controller=auth&action=index");
+  header("Location: " . (getenv('BASE_URL') ?: 'localhost'));
   exit;
 }
