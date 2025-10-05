@@ -1,17 +1,19 @@
 <?php
 // app/Controllers/ScanController.php
 require_once __DIR__ . '/../../app/Helpers/QrToken.php';
-require_once __DIR__ . '/../Models/UserModel.php';
-require_once __DIR__ . '/../Models/AttendanceModel.php';
+// require_once __DIR__ . '/../Models/UserModel.php';
+// require_once __DIR__ . '/../Models/AttendanceModel.php';
 
-class ScanController
+class ScanController extends Controller
 {
 
   // Show scan page (GET)
   public function index()
   {
-    $token = $_GET['token'] ?? '';
-    include __DIR__ . '/../../app/Views/scan_view.php';
+    // $token = $_GET['token'] ?? '';
+    // include __DIR__ . '/../../app/Views/scan_view.php';
+
+    $this->render('scan_view', ['title' => 'Scan QR dengan Kamera']);
   }
 
   // Handle form submit (POST) -> perform checkin/checkout

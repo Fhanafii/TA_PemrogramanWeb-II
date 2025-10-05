@@ -13,6 +13,8 @@ require_once __DIR__ . '/../helpers/logout.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/ScheduleModel.php';
 require_once __DIR__ . '/../models/ScheduleDayModel.php';
+require_once __DIR__ . '/../Models/UserModel.php';
+require_once __DIR__ . '/../Models/AttendanceModel.php';
 class Router
 {
   public function handleRequest()
