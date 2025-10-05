@@ -35,4 +35,36 @@ class AttendanceModel
     ]);
     return $this->db->lastInsertId();
   }
+
+  public function getUserAttendanceBySchedule($userId, $scheduleId)
+  {
+    $query = "
+      SELECT 
+          sd.the_date,
+          sd.status AS day_status,
+          a_in.id AS checkin_id,
+          a_out.id AS checkout_id,
+          a_in.created_at AS checkin_time,
+          a_out.created_at AS checkout_time
+      FROM schedule_days sd
+      LEFT JOIN attendance a_in 
+          ON DATE(a_in.created_at) = sd.the_date 
+          AND a_in.user_id = :user_id
+          AND a_in.type = 'in'
+      LEFT JOIN attendance a_out 
+          ON DATE(a_out.created_at) = sd.the_date 
+          AND a_out.user_id = :user_id
+          AND a_out.type = 'out'
+      WHERE sd.schedule_id = :schedule_id
+      ORDER BY sd.the_date
+    ";
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute([
+      ':user_id' => $userId,
+      ':schedule_id' => $scheduleId
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

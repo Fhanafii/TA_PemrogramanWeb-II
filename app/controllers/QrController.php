@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../lib/phpqrcode/qrlib.php'; // sesuaikan path
 require_once __DIR__ . '/../Helpers/QrToken.php';
 
-class QrController
+class QrController extends Controller
 {
   // menampilkan halaman QR (img) yang auto-refresh client-side
   public function index()
@@ -12,7 +12,8 @@ class QrController
     // URL yang akan di-encode dalam QR
     // $scanUrl = rtrim($base, '/') . '/scan?token=' . urlencode($token);
     // tampilkan view sederhana
-    include __DIR__ . '/../../app/Views/qr_view.php';
+    // include __DIR__ . '/../../app/Views/qr_view.php';
+    $this->render('qr_view', ['title' => 'Generate QR']);
   }
 
   // endpoint yang mengembalikan PNG QR (alternatif)
