@@ -16,6 +16,8 @@ class ScheduleController extends Controller
   // list schedules
   public function index()
   {
+    requireLogin();
+    AuthMiddleware::requireRole('Admin');
     // $schedules = $this->scheduleModel->all();
     $schedules = $this->scheduleModel->getAllSchedules();
     // include __DIR__ . '/../../app/Views/schedules/index.php';
@@ -25,6 +27,8 @@ class ScheduleController extends Controller
   // show create form; handle POST create
   public function create()
   {
+    requireLogin();
+    AuthMiddleware::requireRole('Admin');
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $name = $_POST['name'] ?? '';
       $year = intval($_POST['year'] ?? date('Y'));
@@ -53,6 +57,8 @@ class ScheduleController extends Controller
   // edit schedule metadata + list days to edit
   public function edit()
   {
+    requireLogin();
+    AuthMiddleware::requireRole('Admin');
     $id = intval($_GET['id'] ?? 0);
     $schedule = $this->scheduleModel->find($id);
     if (!$schedule) {
@@ -82,6 +88,8 @@ class ScheduleController extends Controller
   // update single day (ajax)
   public function updateDay()
   {
+    requireLogin();
+    AuthMiddleware::requireRole('Admin');
     // expects POST id, status, note, checkin_time, checkout_time
     $id = intval($_POST['id'] ?? 0);
     $data = [
@@ -97,6 +105,7 @@ class ScheduleController extends Controller
 
   public function delete()
   {
+    requireLogin();
     $id = intval($_GET['id'] ?? 0);
     $this->scheduleModel->delete($id);
     $_SESSION['flash'] = "Schedule dihapus.";

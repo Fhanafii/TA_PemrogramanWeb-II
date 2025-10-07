@@ -6,6 +6,7 @@ class UserController extends Controller
 {
   public function index()
   {
+    requireLogin();
     $userModel = new User();
     $users = $userModel->getAll();
 
@@ -14,6 +15,7 @@ class UserController extends Controller
 
   public function show()
   {
+    requireLogin();
     $id = $_GET['id'] ?? 1;
     $userModel = new User();
     $user = $userModel->getById($id);

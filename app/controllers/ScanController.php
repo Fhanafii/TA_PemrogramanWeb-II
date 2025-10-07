@@ -10,6 +10,7 @@ class ScanController extends Controller
   // Show scan page (GET)
   public function index()
   {
+    requireLogin();
     // $token = $_GET['token'] ?? '';
     // include __DIR__ . '/../../app/Views/scan_view.php';
 
@@ -19,6 +20,7 @@ class ScanController extends Controller
   // Handle form submit (POST) -> perform checkin/checkout
   public function submit()
   {
+    requireLogin();
     $baseurl = getenv('BASE_URL') ?: '';
     $token = $_POST['token'] ?? '';
     $nik = trim($_SESSION['nik'] ?? '');

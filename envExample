@@ -1,8 +1,12 @@
+BASE_URL=http://192.168.30.3/SEMESTERVII/pemrograman2/coba2basedSession/public/
+
 DB_HOST=localhost
 DB_NAME=presensi
 DB_USER=root
 DB_PASS=password
 DB_CHARSET=utf8mb4
+
+QR_SECRET=bijikudameledakduarrrr
 
 # ACCESS_TOKEN_SECRET=secret_access_key_123
 # REFRESH_TOKEN_SECRET=secret_refresh_key_456

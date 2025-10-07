@@ -5,6 +5,7 @@ class AttendanceController extends Controller
 
   public function index()
   {
+    requireLogin();
     if (empty($_SESSION['user_id'])) {
       header('Location: index.php?controller=auth&action=login');
       exit;

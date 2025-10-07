@@ -8,6 +8,8 @@ class QrController extends Controller
   // menampilkan halaman QR (img) yang auto-refresh client-side
   public function index()
   {
+    requireLogin();
+    AuthMiddleware::requireRole('Admin');
     $token = QrToken::generate();
     // URL yang akan di-encode dalam QR
     // $scanUrl = rtrim($base, '/') . '/scan?token=' . urlencode($token);
@@ -19,6 +21,8 @@ class QrController extends Controller
   // endpoint yang mengembalikan PNG QR (alternatif)
   public function png()
   {
+    requireLogin();
+    AuthMiddleware::requireRole('Admin');
     $token = QrToken::generate();
     $base = getenv('BASE_URL') ?: '';
     // $scanUrl = rtrim($base, '/') . '/scan?token=' . urlencode($token);
