@@ -19,6 +19,7 @@ class AuthController extends Controller
   // Halaman login
   public function index()
   {
+    noNeedLogin();
     $this->render('login', ['title' => 'Halaman Login']);
   }
 
@@ -74,6 +75,7 @@ class AuthController extends Controller
 
   public function logout()
   {
+    requireLogin();
     $pdo = (new Database())->getConnection();
     logout($pdo);
   }
@@ -81,6 +83,7 @@ class AuthController extends Controller
   // Contoh route yang butuh login
   public function profile()
   {
+    requireLogin();
     // $pdo = (new Database())->getConnection();
     // $userData = authMiddleware($pdo); // middleware cek token
 

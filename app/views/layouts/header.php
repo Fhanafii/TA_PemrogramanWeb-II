@@ -39,23 +39,25 @@ $base = getenv('BASE_URL') ?: '';
         </a>
       </li>
       <li>
-        <a href="<?= $base ?>index.php?controller=qr" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
-          <i data-lucide="qr-code" class="w-5 h-5"></i>
-          <span>Generate QR</span>
-        </a>
-      </li>
-      <li>
-        <a href="<?= $base ?>index.php?controller=schedule" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
-          <i data-lucide="calendar" class="w-5 h-5"></i>
-          <span>Schedule</span>
-        </a>
-      </li>
-      <li>
         <a href="<?= $base ?>index.php?controller=Attendance" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
           <i data-lucide="attendance" class="w-5 h-5"></i>
           <span>Attendance</span>
         </a>
       </li>
+      <?php if ($_SESSION['user_role'] === 'Admin'): ?>
+        <li>
+          <a href="<?= $base ?>index.php?controller=qr" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+            <i data-lucide="qr-code" class="w-5 h-5"></i>
+            <span>Generate QR</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?= $base ?>index.php?controller=schedule" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+            <i data-lucide="calendar" class="w-5 h-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+      <?php endif; ?>
       <li>
         <a href="<?= $base ?>index.php?controller=auth&action=logout" class="flex items-center gap-3 hover:bg-red-600 px-3 py-2 rounded-md transition">
           <i data-lucide="log-out" class="w-5 h-5"></i>
