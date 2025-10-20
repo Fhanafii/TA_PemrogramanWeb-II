@@ -1,5 +1,9 @@
 <?php
 $base = getenv('BASE_URL') ?: '';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+$url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -27,34 +31,40 @@ $base = getenv('BASE_URL') ?: '';
 
     <ul class="flex flex-col gap-4">
       <li>
-        <a href="<?= $base ?>" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+        <a href="<?= $base ?>" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition <?php echo ($base === $url) ? 'bg-blue-600' : '' ?>">
           <i data-lucide="home" class="w-5 h-5"></i>
           <span>Home</span>
         </a>
       </li>
       <li>
-        <a href="<?= $base ?>index.php?controller=scan" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+        <a href="<?= $base ?>index.php?controller=scan" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition <?php echo ($base . 'index.php?controller=scan' === $url) ? 'bg-blue-600' : '' ?>">
           <i data-lucide="scan-line" class="w-5 h-5"></i>
           <span>Scan QR</span>
         </a>
       </li>
       <li>
-        <a href="<?= $base ?>index.php?controller=Attendance" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+        <a href="<?= $base ?>index.php?controller=Attendance" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition <?php echo ($base . 'index.php?controller=Attendance' === $url) ? 'bg-blue-600' : '' ?>">
           <i data-lucide="attendance" class="w-5 h-5"></i>
           <span>Attendance</span>
         </a>
       </li>
       <?php if ($_SESSION['user_role'] === 'Admin'): ?>
         <li>
-          <a href="<?= $base ?>index.php?controller=qr" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+          <a href="<?= $base ?>index.php?controller=qr" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition <?php echo ($base . 'index.php?controller=qr' === $url) ? 'bg-blue-600' : '' ?>">
             <i data-lucide="qr-code" class="w-5 h-5"></i>
             <span>Generate QR</span>
           </a>
         </li>
         <li>
-          <a href="<?= $base ?>index.php?controller=schedule" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition">
+          <a href="<?= $base ?>index.php?controller=schedule" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition <?php echo ($base . 'index.php?controller=schedule' === $url) ? 'bg-blue-600' : '' ?>">
             <i data-lucide="calendar" class="w-5 h-5"></i>
             <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?= $base ?>index.php?controller=auth&action=register" class="flex items-center gap-3 hover:bg-blue-600 px-3 py-2 rounded-md transition <?php echo ($base . 'index.php?controller=auth&action=register' === $url) ? 'bg-blue-600' : '' ?>">
+            <i data-lucide="calendar" class="w-5 h-5"></i>
+            <span>Register</span>
           </a>
         </li>
       <?php endif; ?>

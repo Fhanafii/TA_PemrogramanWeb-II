@@ -20,7 +20,8 @@ class AuthController extends Controller
   public function index()
   {
     noNeedLogin();
-    $this->render('login', ['title' => 'Halaman Login']);
+    $base = getenv('BASE_URL') ?: 'localhost';
+    $this->render('login', ['title' => 'Halaman Login', 'base' => $base]);
   }
 
   // Proses login
@@ -92,5 +93,60 @@ class AuthController extends Controller
     //   "user"    => $userData
     // ]);
     echo "Halaman profil user.";
+  }
+
+  public function register()
+  {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $nik = trim($_POST['nik']);
+      $name = trim($_POST['name']);
+      $email = trim($_POST['email']);
+      $password = trim($_POST['password']);
+
+      // Validasi sederhana
+      if (empty($nik) || empty($name) || empty($email) || empty($password)) {
+        $error = "Semua field wajib diisi.";
+        $this->render('register', ['title' => 'Halaman Register', 'error' => $error]);
+        return;
+      }
+
+      // Cek apakah email sudah digunakan
+      if ($this->userModel->findByEmail($email)) {
+        $error = "Email sudah terdaftar.";
+        $this->render('register', ['title' => 'Halaman Register', 'error' => $error]);
+        return;
+      }
+
+      // Hash password
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+      // Generate qr_token unik
+      $qr_token = bin2hex(random_bytes(8));
+
+      // Data user baru
+      $data = [
+        'nik' => $nik,
+        'name' => $name,
+        'email' => $email,
+        'password' => $hashedPassword,
+        'qr_token' => $qr_token
+      ];
+
+      // Simpan user
+      if ($this->userModel->create($data)) {
+        $base = getenv('BASE_URL') ?: 'localhost';
+        // header("Location: index.php?success=registered");
+        header("Location: " . $base . "index.php?controller=auth&success=registered");
+        exit;
+      } else {
+        $error = "Terjadi kesalahan saat menyimpan data.";
+      }
+    }
+
+    if (isset($error)) {
+      $this->render('register', ['title' => 'Halaman Register', 'error' => $error]);
+    } else {
+      $this->render('register', ['title' => 'Halaman Register']);
+    }
   }
 }

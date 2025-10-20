@@ -42,15 +42,15 @@ class User extends Model
   // Insert user baru
   public function create($data)
   {
-    $sql = "INSERT INTO {$this->table} (nik, name, email, password, role, qr_token) 
-                VALUES (:nik, :name, :email, :password, :role, :qr_token)";
+    $sql = "INSERT INTO {$this->table} (nik, name, email, password, qr_token) 
+                VALUES (:nik, :name, :email, :password, :qr_token)";
     $stmt = $this->conn->prepare($sql);
 
     $stmt->bindParam(":nik", $data['nik']);
     $stmt->bindParam(":name", $data['name']);
     $stmt->bindParam(":email", $data['email']);
     $stmt->bindParam(":password", $data['password']);
-    $stmt->bindParam(":role", $data['role']);
+    // $stmt->bindParam(":role", $data['role']);
     $stmt->bindParam(":qr_token", $data['qr_token']);
 
     return $stmt->execute();
