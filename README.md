@@ -20,6 +20,11 @@ Use the following prefixes in your commit messages to make them more meaningful 
 - register ❌
 - login ✅
 - logout ✅
-- qr scan ⏳
+- qr scan ✅
 - qr generate ⏳
 - attendance list ❌
+
+# Library / Tech
+- phpqrcode
+- html5qr
+- tailwind

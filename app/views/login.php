@@ -7,10 +7,12 @@ $url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
-  <title><?= $title ?></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Paragon Hub</title>
   <link rel="<?= $base . '../lib/tailwindcdn/tailwind.min.css' ?>" href="style.css">
   <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet"> -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,68 +22,57 @@ $url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
   </script>
   <script src="../lib/html5qr/html5-qrcode.min.js"></script>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/js/login.js" defer></script>
 </head>
 
-<body class="min-h-screen flex">
+<body class="min-h-screen flex font-[Times New Roman] bg-white">
+  <img src="/assets/img/logo.svg" alt="Logo" class="w-60 h-auto absolute top-8 left-8">
 
-  <!-- Left Section -->
-  <div class="w-1/2 bg-gray-50 flex flex-col justify-center px-16">
-    <!-- Logo -->
-    <div class="flex items-center mb-8">
-      <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl mr-2">P</div>
-      <h1 class="text-2xl font-semibold text-gray-800">Paragon <span class="text-blue-600">Hub</span></h1>
+  <!-- LEFT SIDE (Login Form) -->
+  <div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
+
+    <!-- <div class="flex items-center gap-3 mb-10">
+      <img src="/assets/img/logo.svg" alt="Paragon Logo" class="w-40 h-auto">
+      <h2 class="text-2xl font-semibold text-gray-800">
+        Paragon <span class="text-blue-600">Hub</span>
+      </h2>
+    </div> -->
+
+    <div>
+      <h3 class="text-3xl font-semibold text-center text-gray-900 mb-2">Selamat Datang</h3>
+      <p class="font-semibold text-center text-gray-900 mb-10">Di Sistem HR Management Paragon</p>
     </div>
 
-    <div class="max-w-sm w-full">
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">Selamat Datang</h2>
-      <p class="text-gray-500 mb-8">Di Sistem HR management Paragon</p>
+    <form method="POST" action="index.php?controller=Auth&action=login" class="space-y-6 max-w-lg mx-auto w-full">
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" required
+          class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+      </div>
 
-      <?php if (isset($_GET['success']) && $_GET['success'] === 'registered'): ?>
-        <div class="p-3 mb-4 text-sm text-green-800 bg-green-100 border border-green-300 rounded-lg" role="alert">
-          ✅ Registrasi berhasil! Silakan login untuk melanjutkan.
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <div class="relative">
+          <input type="password" id="password" name="password" required
+            class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <button type="button" onclick="togglePassword()"
+            class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600"></button>
         </div>
-      <?php endif; ?>
+      </div>
 
-      <form method="POST" action="index.php?controller=Auth&action=login" class="space-y-5">
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Username</label>
-          <input type="text" name="email" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Password</label>
-          <input type="password" name="password" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600 focus:outline-none">
-        </div>
-        <button type="submit"
-          class="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition">
-          Login
-        </button>
-      </form>
-    </div>
+      <button type="submit" name="login"
+        class="w-full py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+        Login
+      </button>
+    </form>
   </div>
 
-  <!-- Right Section -->
-  <div class="w-1/2 bg-blue-700 text-white flex flex-col justify-center px-16 relative overflow-hidden">
-    <!-- Decorative lines -->
-    <div class="absolute inset-0 opacity-20">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 500 500">
-        <defs>
-          <pattern id="lines" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M0,50 Q50,0 100,50 T200,50" stroke="white" stroke-width="1" fill="none" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#lines)" />
-      </svg>
-    </div>
-
-    <!-- Content -->
-    <div class="relative z-10 max-w-md">
-      <div class="text-4xl font-semibold mb-4">Paragon Hub</div>
-      <p class="text-base leading-relaxed text-gray-100">
-        Bringing people, performance, and presence together. Manage HR smarter, track attendance instantly with QR,
-        and unlock the true potential of your workforce.
-      </p>
+  <!-- RIGHT SIDE (Blue Background Info) -->
+  <!-- Still need to change since it just image background using whole design -->
+  <div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
+    <div class="-mx-10 md:-mx-24">
+      <img src="/assets/img/frame.svg" alt="Illustration" class="w-full h-full object-cover">
     </div>
   </div>
 
