@@ -1,23 +1,37 @@
 <?php
-// Keep your original backend logic here
-// Example: session_start(); include('../config/db.php'); etc.
+$base = getenv('BASE_URL') ?: '';
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+$url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | Paragon Hub</title>
+  <link rel="<?= $base . '../lib/tailwindcdn/tailwind.min.css' ?>" href="style.css">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet"> -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/assets/js/login.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons(); // aktifkan ikon
+  </script>
+  <script src="../lib/html5qr/html5-qrcode.min.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/login.js" defer></script>
 </head>
+
 <body class="min-h-screen flex font-[Times New Roman] bg-white">
-  <img src="/assets/img/logo.svg" alt="Logo" class="w-60 h-auto absolute top-8 left-8">
+  <img src="assets/img/logo.svg" alt="Logo" class="w-60 h-auto absolute top-8 left-8">
 
   <!-- LEFT SIDE (Login Form) -->
   <div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
-    
+
     <!-- <div class="flex items-center gap-3 mb-10">
       <img src="/assets/img/logo.svg" alt="Paragon Logo" class="w-40 h-auto">
       <h2 class="text-2xl font-semibold text-gray-800">
@@ -55,12 +69,13 @@
   </div>
 
   <!-- RIGHT SIDE (Blue Background Info) -->
-   <!-- Still need to change since it just image background using whole design -->
-<div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
+  <!-- Still need to change since it just image background using whole design -->
+  <div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
     <div class="-mx-10 md:-mx-24">
-    <img src="/assets/img/frame.svg" alt="Illustration" class="w-full h-full object-cover">
-  </div>
+      <img src="assets/img/frame.svg" alt="Illustration" class="w-full h-full object-cover">
+    </div>
   </div>
 
 </body>
+
 </html>

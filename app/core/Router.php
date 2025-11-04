@@ -12,6 +12,7 @@ require_once __DIR__ . '/../helpers/loadEnv.php';
 require_once __DIR__ . '/../helpers/logout.php';
 
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/DashboardModel.php';
 require_once __DIR__ . '/../models/ScheduleModel.php';
 require_once __DIR__ . '/../models/ScheduleDayModel.php';
 require_once __DIR__ . '/../Models/UserModel.php';

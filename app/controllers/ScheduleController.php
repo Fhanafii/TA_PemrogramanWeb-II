@@ -76,13 +76,15 @@ class ScheduleController extends Controller
         'default_checkout' => $_POST['default_checkout'] ?? $schedule['default_checkout']
       ]);
       $_SESSION['flash'] = "Schedule updated.";
-      header('Location: ?controller=schedule&action=edit&id=' . $id);
+      // header('Location: ?controller=schedule&action=edit&id=' . $id);
+      header('Location: ?controller=schedule');
       exit;
     }
 
     $days = $this->dayModel->getBySchedule($id);
     // include __DIR__ . '/../../app/Views/schedules/edit.php';
-    $this->render('edit', ['title' => 'Edit Schedule: ' . htmlspecialchars($schedule['name'] ?? ''), 'days' => $days, 'schedule' => $schedule]);
+    // $this->render('edit', ['title' => 'Edit Schedule' . htmlspecialchars($schedule['name'] ?? ''), 'days' => $days, 'schedule' => $schedule]);
+    $this->render('edit', ['title' => '', 'days' => $days, 'schedule' => $schedule]);
   }
 
   // update single day (ajax)
