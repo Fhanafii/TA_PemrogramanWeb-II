@@ -21,7 +21,7 @@ Use the following prefixes in your commit messages to make them more meaningful 
 - login ✅
 - logout ✅
 - qr scan ✅
-- qr generate ⏳
+- qr generate ✅
 - attendance list ✅
 
 # Library / Tech
