@@ -16,15 +16,16 @@ Use the following prefixes in your commit messages to make them more meaningful 
 
 # Feature
 
-- appearance / Frontend ❌
-- register ❌
+- appearance / Frontend ✅
+- register ✅
 - login ✅
 - logout ✅
 - qr scan ✅
 - qr generate ⏳
-- attendance list ❌
+- attendance list ✅
 
 # Library / Tech
+
 - phpqrcode
 - html5qr
 - tailwind

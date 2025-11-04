@@ -67,4 +67,17 @@ class AttendanceModel
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function getLatestScheduleId()
+  {
+    $stmt = $this->db->query("SELECT id, year, month FROM schedules ORDER BY created_at DESC LIMIT 1");
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  public function getScheduleByYearMonth($year, $month)
+  {
+    $stmt = $this->db->prepare("SELECT id, year, month FROM schedules WHERE year = :y AND month = :m");
+    $stmt->execute([':y' => $year, ':m' => $month]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 }

@@ -19,6 +19,7 @@ $url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     lucide.createIcons(); // aktifkan ikon
   </script>
   <script src="../lib/html5qr/html5-qrcode.min.js"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo1.svg" />
 
 </head>
 

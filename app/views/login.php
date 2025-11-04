@@ -23,11 +23,11 @@ $url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
   <script src="../lib/html5qr/html5-qrcode.min.js"></script>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/assets/js/login.js" defer></script>
+  <script src="assets/js/login.js" defer></script>
 </head>
 
 <body class="min-h-screen flex font-[Times New Roman] bg-white">
-  <img src="/assets/img/logo.svg" alt="Logo" class="w-60 h-auto absolute top-8 left-8">
+  <img src="assets/img/logo.svg" alt="Logo" class="w-60 h-auto absolute top-8 left-8">
 
   <!-- LEFT SIDE (Login Form) -->
   <div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
@@ -72,7 +72,7 @@ $url .= "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
   <!-- Still need to change since it just image background using whole design -->
   <div class="flex flex-col justify-center w-full md:w-1/2 px-10 md:px-24">
     <div class="-mx-10 md:-mx-24">
-      <img src="/assets/img/frame.svg" alt="Illustration" class="w-full h-full object-cover">
+      <img src="assets/img/frame.svg" alt="Illustration" class="w-full h-full object-cover">
     </div>
   </div>
 

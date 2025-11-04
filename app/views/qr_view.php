@@ -1,38 +1,36 @@
 <?php
-// app/Views/qr_view.php
-// Variabel: $scanUrl (bila ingin), atau gunakan endpoint png
-// $pngEndpoint = '/qr/png'; // sesuaikan rute public menuju QrController::png
 require_once __DIR__ . '/layouts/header.php';
 
-
-var_dump($_SESSION);
-
-echo "<br>";
-
-$base = getenv('BASE_URL') ?: 'localhost';
-echo $base;
+$base = getenv('BASE_URL') ?: '/';
 ?>
 
-<div class="qr">
-  <!-- <img id="qrimg" src="<?php echo $pngEndpoint . '?_t=' . time(); ?>" alt="QR Code"> -->
-  <!-- <img id="qrimg" src="<?php echo $base . 'index.php?controller=qr&action=png' . '&_t=' . time(); ?>" alt="QR Code"> -->
-  <img id="qrimg" src="<?php echo $base . 'index.php?controller=qr&action=png' . '&_t=' . time(); ?>" alt="QR Code">
-</div>
-<div class="meta">
-  <div>Token window: <?php echo floor(time() / 300); ?></div>
-  <div id="countdown">Masa berlaku: menghitung...⌚</div>
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 py-10">
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md text-center">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Scan QR untuk Login</h2>
+
+    <div class="flex justify-center mb-6">
+      <img id="qrimg"
+        src="<?php echo $base . 'index.php?controller=qr&action=png' . '&_t=' . time(); ?>"
+        alt="QR Code"
+        class="w-56 h-56 border border-gray-200 rounded-lg shadow-sm object-contain">
+    </div>
+
+    <div class="bg-gray-100 rounded-md p-3 text-sm text-gray-700">
+      <div><span class="font-medium">Token Window:</span> <?php echo floor(time() / 300); ?></div>
+      <div id="countdown" class="mt-1 text-blue-600 font-medium">Masa berlaku: menghitung...⌚</div>
+    </div>
+
+    <p class="mt-6 text-gray-500 text-sm">
+      QR akan diperbarui otomatis setiap 5 menit ⟳
+    </p>
+  </div>
 </div>
 
 <script>
-  // Auto-refresh gambar setiap 5 menit (300000 ms). 
-  // Juga tampilkan countdown sisa waktu window 5 menit.
-  const BASE_URL = "<?php echo getenv('BASE_URL'); ?>";
-  // console.log("Base URL:", BASE_URL);
+  const BASE_URL = "<?php echo rtrim($base, '/') . '/'; ?>";
 
   function refreshQr() {
     const img = document.getElementById('qrimg');
-
-    // img.src = '<?php echo "http://192.168.1.133/SEMESTERVII/pemrograman2/coba2basedSession/public/index.php?controller=qr&action=png"; ?>&_t=' + Date.now();
     img.src = `${BASE_URL}index.php?controller=qr&action=png&_t=${Date.now()}`;
     console.log("QR refreshed:", img.src);
   }
@@ -40,16 +38,28 @@ echo $base;
   function updateCountdown() {
     const now = Math.floor(Date.now() / 1000);
     const windowLength = 300;
-    const seed = Math.floor(now / windowLength) * windowLength + windowLength;
-    const remaining = seed - now;
-    document.getElementById('countdown').innerText = 'Masa berlaku: ' + remaining + ' detik';
-    if (remaining <= 0) {
-      refreshQr();
+    const nextWindow = Math.floor(now / windowLength) * windowLength + windowLength;
+    const remaining = nextWindow - now;
+    const countdownEl = document.getElementById('countdown');
+
+    countdownEl.innerText = `Masa berlaku: ${remaining} detik`;
+
+    // Ganti warna teks mendekati habis
+    if (remaining <= 30) {
+      countdownEl.classList.add('text-red-600');
+      countdownEl.classList.remove('text-blue-600');
+    } else {
+      countdownEl.classList.add('text-blue-600');
+      countdownEl.classList.remove('text-red-600');
     }
+
+    // Auto-refresh jika sudah habis
+    if (remaining <= 0) refreshQr();
   }
-  // refresh tiap 1 detik hitung mundur, otomatis refresh juga setiap 5 menit
+
+  // Jalankan interval hitung mundur dan refresh QR
   setInterval(updateCountdown, 1000);
-  setInterval(refreshQr, 300000); // fallback refresh tiap 5 menit
+  setInterval(refreshQr, 300000);
   updateCountdown();
 </script>
 
